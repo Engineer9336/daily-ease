@@ -1,78 +1,229 @@
-# Daily Ease
-**Local Help. Trusted People. Easier Everyday Living.**
+🏡 Daily Ease
 
-A Streamlit + SQLAlchemy local-services marketplace starter for villages, small towns and neighbourhoods in India. It includes customer and worker accounts, searchable worker profiles, service requests, an FAQ helper, and English/Hindi/Hinglish interface strings.
+Local Help. Trusted People. Easier Everyday Living.
 
-## Important status and limitations
-This is a runnable MVP, not a fully audited production marketplace. Demo profiles are sample records and cannot receive bookings. Payments, SMS/OTP, identity-document verification, reviews/complaints workflows, external object storage, email notifications, and a staffed support channel are not implemented. Admin management currently provides basic statistics and worker activation toggles; verification approval, categories CRUD, complaints, and a full activity-log UI remain future work. Translation coverage is validated for the current translation dictionary, but some system-generated technical errors and a few admin/detail labels are still English. Do not advertise workers as verified: profiles start as **Unverified**. No real deployment has been performed by this project build.
+Daily Ease is a student-built web application concept for connecting people in villages, small towns, and neighbourhoods with local service providers. The goal is to make everyday help—such as plumbing, electrical repairs, cleaning, tutoring, and cooking—easier to discover through a simple, approachable platform.
 
-## Requirements
-Python 3.11+ recommended. Python 3.13 should also work with compatible wheels.
+Project status: Student MVP / demonstration project. Some workflows are implemented, but this is not yet a fully audited production marketplace. Please read the limitations below before relying on it for real services.
 
-## Install and run locally
-```bash
+🌐 **Live Website:** [Visit Daily Ease](https://daily-ease-npgrq4uguomghtcbl6owmr.streamlit.app/)
+
+
+👋 For visitors
+
+Daily Ease explores how technology can help communities find local skills in one place.
+
+What you can explore
+
+Discover services: Search worker profiles by service, category, and locality.
+
+Worker profiles: View skills, experience, indicative pricing, availability, and profile information.
+
+Customer accounts: Register and sign in to use account-based features.
+
+Become a worker: Create a worker account and maintain a service profile.
+
+Service requests: Submit requests to eligible, non-demo worker profiles and follow request status.
+
+Three interface languages: English, हिन्दी, and Hinglish options are available.
+
+Daily Ease Assistant: An in-app FAQ helper for common usage questions.
+
+Admin area: A basic protected dashboard for platform statistics and worker activation controls.
+
+Demo profiles are sample data for exploring the interface. They are not real people, not verified providers, and cannot receive bookings.
+
+🎓 For students and evaluators
+
+Daily Ease is a practical example of a small full-stack Python project. It brings together a web UI, relational database access, authentication, role-based workflows, localization, and automated tests.
+
+Learning objectives
+
+Build an interactive web interface with Streamlit.
+
+Organize application code into reusable Python modules.
+
+Model users, worker profiles, and service requests with SQLAlchemy.
+
+Hash passwords instead of storing them as plain text.
+
+Implement basic role-aware actions and request status transitions.
+
+Add English, Hindi, and Hinglish interface strings.
+
+Write automated tests with pytest.
+
+Prepare a Python application for GitHub and hosted deployment.
+
+Technology stack
+
+Technology
+
+Purpose
+
+Python
+
+Main application language
+
+Streamlit
+
+Web interface
+
+SQLAlchemy
+
+Database models and operations
+
+SQLite
+
+Local development and tests
+
+PostgreSQL
+
+Optional persistent production database
+
+Pillow
+
+Worker image processing
+
+Pandas
+
+Data handling dependency
+
+Pytest
+
+Automated tests
+
+🧭 How the app works
+
+A visitor explores service categories and worker profiles.
+
+A customer creates an account and signs in.
+
+The customer searches for an eligible worker and submits a service request.
+
+The worker reviews the request and can accept or reject it, then update its status when permitted.
+
+Users can revisit the app to check request status and access the help assistant.
+
+The exact options available depend on the account role and whether a profile is a demo record.
+
+🚀 Run the project locally
+
+1. Requirements
+
+Python 3.11 or a compatible newer version
+
+Git (optional, for cloning the repository)
+
+2. Get the source code
+
+Clone the repository:
+
+git clone https://github.com/Engineer9336/daily-ease.git
+cd daily-ease
+
+Or download the repository as a ZIP from GitHub and extract it.
+
+3. Create a virtual environment
+
+Windows PowerShell:
+
 python -m venv .venv
-# Windows PowerShell: .venv\Scripts\Activate.ps1
-# macOS/Linux: source .venv/bin/activate
+.venv\Scripts\Activate.ps1
+
+macOS / Linux:
+
+python3 -m venv .venv
+source .venv/bin/activate
+
+4. Install dependencies
+
 python -m pip install -r requirements.txt
-cp .env.example .env  # optional; set values for your environment
+
+5. Start the application
+
 streamlit run app.py
-```
-The app initializes the database and seeds clearly labelled demo workers on first run. Default database is `daily_ease.db` in the project folder. Never commit the database if it contains personal data.
 
-## Accounts
-Register a customer or worker in the UI. Worker registration creates a profile, which can be edited under **My profile**. Only non-demo worker profiles accept customer service requests. Demo profiles use sample credentials internally and cannot be booked.
+Streamlit will print a local address in the terminal. Open that address in your browser. On the first run, the app initializes its database and adds clearly labelled demo data.
 
-## Create the first admin
-Stop the app, activate the same virtual environment, and run:
-```bash
-python create_admin.py
-```
-Enter the admin email, name and a private password of at least 12 characters. The command creates or promotes the account; it does not print the password. Start the app again and log in with that account. Never commit credentials.
+🧪 Run automated tests
 
-## Database configuration
-SQLite is suitable for local development and tests. For production, set `DATABASE_URL` to a persistent PostgreSQL connection string, for example:
-```text
-postgresql+psycopg://USER:PASSWORD@HOST:5432/DATABASE
-```
-Configure this in the hosting provider's secret/environment settings, not in source control. Schema tables are created automatically on startup; this project does not yet include Alembic migrations. Back up persistent data before schema changes. Avoid ephemeral host filesystems for production database or uploads.
+With the virtual environment active, run:
 
-## Images
-The app accepts JPG/JPEG/PNG images up to 5 MB and attempts to decode and re-encode uploads. Set `DAILY_EASE_UPLOAD_DIR` to a persistent volume for a single-server deployment. For horizontally scaled/ephemeral hosting, replace this with object storage (e.g. S3-compatible storage) before relying on profile photos. Local upload storage is not production-durable by default.
-
-## Tests
-```bash
 pytest -q
-```
-Tests use an isolated temporary SQLite database and cover password hashing/login, duplicate registration, search/category filtering, request transitions/permissions, translation-key coverage, and profile authorization. The current test suite does not replace a full browser UI smoke test or security audit.
 
-## GitHub upload
-```bash
-git init
-git add .
-git commit -m "Build Daily Ease MVP"
-git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPOSITORY.git
-git push -u origin main
-```
-Check `git status` and `.gitignore` before pushing. Never commit `.env`, `secrets.toml`, user uploads, or a production database.
+Tests are intended to cover selected core behaviour, including password hashing and login, duplicate registration, worker search, request status transitions and permissions, translation-key coverage, and profile authorization. A passing test suite does not replace end-to-end browser testing or a security audit.
 
-## Streamlit Community Cloud deployment
-1. Push this folder to a GitHub repository.
-2. In Streamlit Community Cloud, create an app from that repository and set the main file path to `app.py`.
-3. Use Python 3.11 where the deployment settings permit.
-4. Add `DATABASE_URL` and any other secrets in app settings. Use a persistent managed PostgreSQL database for production data.
-5. For profile photos, configure durable object storage or a persistent volume. Community Cloud local files should not be treated as permanent storage.
-6. Deploy, then test account creation, login, profile editing, search, service request status transitions, and language selection on desktop and mobile.
+🔐 Creating an administrator account locally
 
-## Open on a phone
-After deployment, open the actual deployed HTTPS URL in Chrome (Android) or Safari (iPhone). Android: browser menu → **Add to Home screen**. iPhone: Safari Share → **Add to Home Screen**. This is a mobile-friendly website; no native APK/iOS app or PWA manifest/service worker has been built.
+For local development, stop the app and run:
 
-## Current workflow
-- Customer: register → search real worker profiles → submit request → see request history → cancel a pending request.
-- Worker: register → edit profile → upload image → receive requests → accept/reject → mark in progress/completed.
-- Admin: create account with `create_admin.py` → view basic counts → activate/deactivate worker profiles.
-- Assistant: deterministic FAQ helper; it is not a live AI model and needs no API key.
+python create_admin.py
 
-## Security notes
-Passwords are hashed using PBKDF2-HMAC-SHA256 with a per-password random salt. SQLAlchemy parameterizes database operations. Production deployment still requires HTTPS, secret management, database backups, rate limiting, stronger audit/monitoring, privacy/terms review, and a professional security review before handling sensitive personal data.
+Follow the prompts to create or promote an administrator account, then restart the app and sign in. Use a private password and never commit credentials, .env files, or secrets to GitHub. For a hosted instance, follow the deployment provider's secure configuration process and do not expose admin credentials publicly.
+
+⚠️ Current limitations
+
+This project is an MVP intended for learning and demonstration. The following should not be assumed to be available:
+
+Payments: No real payment gateway or transaction processing is implemented.
+
+Identity verification: Worker profiles are not automatically identity-verified. Do not treat an “unverified” profile as trusted solely because it appears in the app.
+
+Demo bookings: Sample/demo profiles cannot receive service requests.
+
+Persistent image storage: Local uploads may not survive redeployments or ephemeral hosting. Durable object storage must be configured for production use.
+
+Production database: SQLite is suitable for local development. A hosted deployment that needs durable data should use a properly configured persistent PostgreSQL database.
+
+Notifications and support: SMS/OTP, email notifications, and a staffed customer-support channel are not configured.
+
+Admin tools: The dashboard is basic; a full verification review, category-management, complaints-management, and activity-log workflow is not complete.
+
+Localization: English, Hindi, and Hinglish are supported by the translation module, but some technical errors or less-used labels may still appear in English.
+
+Mobile app: This is a mobile-friendly website, not a native Android APK or iOS app. A PWA manifest/service worker is not included.
+
+Security and legal review: The project has not undergone a professional security audit or legal/privacy compliance review.
+
+Please do not enter sensitive personal information or use this demonstration as the sole basis for hiring a service provider.
+
+🌱 Possible future improvements
+
+Ideas for students who want to extend the project:
+
+Add real worker verification with a documented review process.
+
+Integrate a secure payment provider in a test environment before production use.
+
+Add ratings, reviews, complaint reporting, and moderation workflows.
+
+Add email/SMS notifications and booking reminders.
+
+Use persistent object storage for worker photos.
+
+Add database migrations and scheduled backups.
+
+Improve localization coverage and accessibility testing.
+
+Add automated browser tests and test mobile/desktop layouts.
+
+Add monitoring, rate limiting, and a more complete security review.
+
+🤝 Contributing / learning from the project
+
+Students can explore the modules, run the tests, report bugs, and propose improvements. Before submitting changes, run the app locally and execute pytest -q. Avoid committing credentials, private user information, uploaded personal photos, or database files containing real data.
+
+📄 Project information
+
+Project: Daily Ease
+
+Tagline: Local Help. Trusted People. Easier Everyday Living.
+
+Repository: Engineer9336/daily-ease
+
+Application framework: Streamlit
+
+Intended audience: Visitors, students, project reviewers, and developers learning full-stack Python
+
+Built as a learning-focused MVP exploring how digital tools could make local services easier to discover.
